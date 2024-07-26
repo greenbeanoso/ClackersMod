@@ -29,93 +29,93 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
+// 這個值應該和 META-INF/mods.toml 文件中的一個條目對應
 @Mod(ClackersMod.MODID)
 public class ClackersMod {
-    // Define mod id in a common place for everything to reference
+    // 定義模組ID，方便各處引用
     public static final String MODID = "clackers";
-    // Directly reference a slf4j logger
+    // 直接引用slf4j的日誌記錄器
     private static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "clackers" namespace
+    // 創建一個延遲註冊器來保存Block，這些Block都會註冊在"clackers"命名空間下
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "clackers" namespace
+    // 創建一個延遲註冊器來保存Item，這些Item都會註冊在"clackers"命名空間下
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "clackers" namespace
+    // 創建一個延遲註冊器來保存CreativeModeTab，這些Tab都會註冊在"clackers"命名空間下
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // Creates a new Block with the id "clackers:greenbean_block", combining the namespace and path
+    // 創建一個新的Block，ID是"clackers:greenbean_block"，結合命名空間和路徑
     public static final RegistryObject<Block> GREENBEAN_BLOCK = BLOCKS.register("greenbean_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
-    // Creates a new BlockItem with the id "clackers:greenbean_block", combining the namespace and path
+    // 創建一個新的BlockItem，ID是"clackers:greenbean_block"，結合命名空間和路徑
     public static final RegistryObject<Item> GREENBEAN_BLOCK_ITEM = ITEMS.register("greenbean_block", () -> new BlockItem(GREENBEAN_BLOCK.get(), new Item.Properties()));
 
-    // Creates a new food item with the id "clackers:greenbean_id", nutrition 1 and saturation 2
+    // 創建一個新的食物Item，ID是"clackers:greenbean_item"，營養1，飽和度2
     public static final RegistryObject<Item> GREENBEAN_ITEM = ITEMS.register("greenbean_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEat().nutrition(1).saturationMod(2f).build())));
 
-    // Creates a creative tab with the id "clackers:greenbean_tab" for the greenbean item, that is placed after the combat tab
+    // 創建一個創造模式的分類，ID是"clackers:greenbean_tab"，放置在戰鬥分類之後，包含greenbean_item
     public static final RegistryObject<CreativeModeTab> GREENBEAN_TAB = CREATIVE_MODE_TABS.register("greenbean_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> GREENBEAN_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(GREENBEAN_ITEM.get()); // Add the greenbean item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(GREENBEAN_ITEM.get()); // 把greenbean_item加到這個分類。對於自定義的分類，這種方法比事件更好
             }).build());
 
     public ClackersMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register the commonSetup method for modloading
+        // 註冊模組加載的commonSetup方法
         modEventBus.addListener(this::commonSetup);
 
-        // Register the Deferred Register to the mod event bus so blocks get registered
+        // 註冊延遲註冊器到模組事件總線，這樣Block就會被註冊
         BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
+        // 註冊延遲註冊器到模組事件總線，這樣Item就會被註冊
         ITEMS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so tabs get registered
+        // 註冊延遲註冊器到模組事件總線，這樣創造模式分類就會被註冊
         CREATIVE_MODE_TABS.register(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in
+        // 註冊自己到伺服器和其他我們感興趣的遊戲事件
         MinecraftForge.EVENT_BUS.register(this);
 
-        // Register the item to a creative tab
+        // 把Item註冊到創造模式分類
         modEventBus.addListener(this::addCreative);
 
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
+        // 註冊模組的ForgeConfigSpec，這樣Forge可以為我們創建和加載配置文件
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
+        // 一些通用的設置代碼
+        LOGGER.info("從通用設置打招呼");
 
         if (Config.logDirtBlock)
-            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
+            LOGGER.info("泥土方塊 >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
 
         LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
 
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        Config.items.forEach((item) -> LOGGER.info("Item >> {}", item.toString()));
     }
 
-    // Add the greenbean block item to the building blocks tab
+    // 把greenbean_block_item加到建築方塊分類
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
             event.accept(GREENBEAN_BLOCK_ITEM);
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
+    // 你可以使用@SubscribeEvent，讓事件總線自動發現並調用方法
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
+        // 當伺服器啟動時做一些事情
+        LOGGER.info("伺服器啟動時打招呼");
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
+    // 你可以使用EventBusSubscriber，自動註冊類中所有用@SubscribeEvent標註的靜態方法
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            // 一些客戶端設置代碼
+            LOGGER.info("從客戶端設置打招呼");
+            LOGGER.info("Minecraft名字 >> {}", Minecraft.getInstance().getUser().getName());
         }
     }
 }
