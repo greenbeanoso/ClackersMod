@@ -1,0 +1,73 @@
+# Eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# IntelliJ IDEA
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# Gradle
+build
+.gradle
+
+# VSCode
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Forge MDK files
+forge*changelog.txt
+
+# Minecraft specific
+run/
+run-data/
+
+# User-specific files
+*.env
+*.user
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Backup files
+*.bak
+*.swp
+*.swo
+*~
+
+# Compiled classes
+*.class
+
+# JAR files
+*.jar
+
+# Native libraries
+*.dll
+*.so
+*.dylib
+
+# IDE specific
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Project specific
+out/
