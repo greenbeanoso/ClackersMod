@@ -53,7 +53,7 @@ public class ClackersMod {
             .alwaysEat().nutrition(1).saturationMod(2f).build())));
 
     // 創建一個名為 clackers 的物品並將其添加到戰鬥分類中
-    public static final RegistryObject<Item> CLACKERS_ITEM = ITEMS.register("clackers", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> CLACKERS_ITEM = ITEMS.register("clackers", () -> new Item(new Item.Properties().stacksTo(1).fireResistant()));
 
     // 創建一個創造模式的分類，ID是"clackers:greenbean_tab"，放置在戰鬥分類之後，包含greenbean_item
     public static final RegistryObject<CreativeModeTab> GREENBEAN_TAB = CREATIVE_MODE_TABS.register("greenbean_tab", () -> CreativeModeTab.builder()
