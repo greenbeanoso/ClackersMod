@@ -14,7 +14,7 @@ ClackersMod 是一個基於 Minecraft Forge 的模組專案。本文件描述了
 
 ### 1. 下載並安裝 JDK
 
-請確保你已安裝 Java Development Kit (JDK) 17。
+請確保已安裝 Java Development Kit (JDK) 17。
 驗證安裝：
 
 ```sh
