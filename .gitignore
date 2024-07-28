@@ -17,6 +17,10 @@ out
 build
 .gradle
 
+# Exclude all jar files except the gradle-wrapper.jar
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
 # VSCode
 .vscode/
 
@@ -54,9 +58,6 @@ run-data/
 
 # Compiled classes
 *.class
-
-# JAR files
-*.jar
 
 # Native libraries
 *.dll
