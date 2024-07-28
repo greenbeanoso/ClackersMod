@@ -52,6 +52,8 @@ gradle wrapper --gradle-version 8.8
 
 ```
 
+### 5. 使用Vscode開啟專案
+
 ## 構建與運行
 
 使用以下命令來構建專案：
