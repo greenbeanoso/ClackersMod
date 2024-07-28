@@ -73,4 +73,4 @@ gradle wrapper --gradle-version 8.8
 
 ## 許可
 
-此項目基於 MIT 許可證進行分發。詳見 [LICENSE](notion://www.notion.so/singularmaker/LICENSE.txt) 文件。
+此項目基於 MIT 許可證進行分發。詳見 LICENSE 文件。
