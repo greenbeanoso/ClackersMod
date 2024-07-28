@@ -6,7 +6,7 @@ ClackersMod 是一個基於 Minecraft Forge 的模組專案。本文件描述了
 
 ## 先決條件
 
-- [Java Development Kit (JDK) 17](https://adoptium.net/)
+- Java Development Kit (JDK) 17
 - [Gradle](https://gradle.org/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
@@ -14,8 +14,7 @@ ClackersMod 是一個基於 Minecraft Forge 的模組專案。本文件描述了
 
 ### 1. 下載並安裝 JDK
 
-請確保你已安裝 Java Development Kit (JDK) 17。你可以從 [AdoptOpenJDK](https://adoptium.net/) 下載並安裝。
-
+請確保你已安裝 Java Development Kit (JDK) 17。
 驗證安裝：
 
 ```sh
@@ -37,7 +36,6 @@ gradle -v
 ### 3. 設置 Gradle 包裝器
 
 為了確保所有開發者使用相同的 Gradle 版本，我們使用 Gradle 包裝器。
-
 運行以下命令來生成或更新 Gradle 包裝器：
 
 ```sh
@@ -45,7 +43,7 @@ gradle wrapper --gradle-version 8.8
 
 ```
 
-### 5. 生成 VSCode 運行配置
+### 4. 生成 VSCode 運行配置
 
 運行以下命令生成 VSCode 的運行配置：
 
@@ -53,10 +51,6 @@ gradle wrapper --gradle-version 8.8
 ./gradlew genVSCodeRuns
 
 ```
-
-### 6. 使用 VSCode 開發
-
-打開 Visual Studio Code，然後打開項目目錄。VSCode 應該能夠識別並導入 Gradle 專案。
 
 ## 構建與運行
 
