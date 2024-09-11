@@ -1,13 +1,20 @@
 package com.greenbean.clackers;
 
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+
+import net.minecraft.SharedConstants;
+
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -15,6 +22,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,10 +36,13 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
+import java.util.List;
+import java.util.ArrayList;
 
 // 這個值應該和 META-INF/mods.toml 文件中的一個條目對應
 @Mod(ClackersMod.MODID)
 public class ClackersMod {
+    
     // 定義模組ID，方便各處引用
     public static final String MODID = "clackers";
     // 直接引用slf4j的日誌記錄器
@@ -58,6 +69,7 @@ public class ClackersMod {
     // 創建一個創造模式的分類，ID是"clackers:greenbean_tab"，放置在戰鬥分類之後，包含greenbean_item
     public static final RegistryObject<CreativeModeTab> GREENBEAN_TAB = CREATIVE_MODE_TABS.register("greenbean_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
+            .title(Component.translatable("itemGroup.clackers.greenbean_tab"))
             .icon(() -> GREENBEAN_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(GREENBEAN_ITEM.get()); // 把greenbean_item加到這個分類。對於自定義的分類，這種方法比事件更好
@@ -98,11 +110,19 @@ public class ClackersMod {
         Config.items.forEach((item) -> LOGGER.info("Item >> {}", item.toString()));
     }
 
-    // 把greenbean_block_item加到建築方塊分類
+    // 把clackers_item加到戰鬥分類
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(GREENBEAN_BLOCK_ITEM);
+        
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.accept(CLACKERS_ITEM.get());
+        }
+        if (event.getTabKey().equals(GREENBEAN_TAB.getKey())) {
+            event.accept(GREENBEAN_BLOCK_ITEM.get());
+            event.accept(GREENBEAN_ITEM.get());
+        }
     }
+    
+    
 
     // 你可以使用@SubscribeEvent，讓事件總線自動發現並調用方法
     @SubscribeEvent
@@ -116,6 +136,8 @@ public class ClackersMod {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            
+
             // 一些客戶端設置代碼
             LOGGER.info("從客戶端設置打招呼");
             LOGGER.info("Minecraft名字 >> {}", Minecraft.getInstance().getUser().getName());

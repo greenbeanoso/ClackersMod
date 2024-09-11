@@ -1,6 +1,7 @@
 {
     "item.clackers.greenbean_item": "可以吃的綠豆",
     "item.clackers.clackers": "美國鋼珠",
-    "block.clackers.greenbean_block": "綠豆塊"
+    "block.clackers.greenbean_block": "綠豆塊",
+    "itemGroup.clackers.greenbean_tab": "綠豆物品"
   }
   
